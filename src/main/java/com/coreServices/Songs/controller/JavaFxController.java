@@ -42,6 +42,12 @@ public class JavaFxController {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            } else if (file.getAbsolutePath().endsWith(".xml")){
+                try {
+                    service.xmlReader(file);
+                }catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else {
                 System.out.println("something wrong");
             }

@@ -11,11 +11,10 @@ import java.util.List;
 public class CsvParser {
 
     public List<Song> csvRead(String file) throws IOException {
-        List<Song> songs = new CsvToBeanBuilder<Song>(new FileReader(file))
+
+        return new CsvToBeanBuilder<Song>(new FileReader(file))
                 .withType(Song.class)
                 .build()
                 .parse();
-
-        return songs;
     }
 }
