@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane alignment="CENTER" hgap="10.0" vgap="10.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.coreServices.Songs.controller.JavaFxController">
+    <columnConstraints>
+      <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+        <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+    </columnConstraints>
+    <rowConstraints>
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+        <RowConstraints />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+    </rowConstraints>
+   <children>
+      <Button fx:id="button" mnemonicParsing="false" onAction="#myAction" text="Button" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+      <Button fx:id="open" mnemonicParsing="false" onAction="#open" text="Button" />
+      <TableView prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="3">
+        <columns>
+          <TableColumn prefWidth="83.19998472929001" text="C1" />
+          <TableColumn prefWidth="67.20001220703125" text="C2" />
+        </columns>
+      </TableView>
+   </children>
+</GridPane>

@@ -1,5 +1,6 @@
 package com.coreServices.Songs.domain;
 
+import com.opencsv.bean.CsvBindByName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,11 +19,20 @@ public class Song {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @CsvBindByName(column = "Title")
     private String title;
 
+    @CsvBindByName(column = "Author")
     private String author;
 
+    @CsvBindByName(column = "Votes")
     private Long votes;
 
+    public void addVote() {
+        setVotes(getVotes()+1L);
+    }
 
+    public void clearVotes() {
+        setVotes(0L);
+    }
 }
