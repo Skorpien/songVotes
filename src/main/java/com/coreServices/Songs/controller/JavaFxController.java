@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.io.File;
-import java.io.IOException;
 
 @Controller
 public class JavaFxController {
@@ -55,7 +54,7 @@ public class JavaFxController {
             if (file.getAbsolutePath().endsWith(".csv")) {
                 try {
                     service.csvReader(file.toString());
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             } else if (file.getAbsolutePath().endsWith(".xml")){

@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -41,13 +40,16 @@ public class DbService {
         return songRepository.findById(id).orElseThrow(Exception::new);
     }
 
-    public void csvReader(String file) throws IOException {
-        List<Song> songs = checker.checkingTheSame(csvParserParser.csvRead(file), getAllSongs());
+    public void csvReader(String file) throws Exception {
+        List<Song> newSongs = csvParserParser.csvRead(file);
+        List<Song> songs = checker.checkingTheSame(newSongs, getAllSongs());
         if (!songs.isEmpty()) {
             for (Song song : songs) {
                 saveSong(song);
             }
         }
+        checkSongs(newSongs, songs);
+        newSongs.clear();
     }
 
     public void xmlReader(File file) throws Exception {

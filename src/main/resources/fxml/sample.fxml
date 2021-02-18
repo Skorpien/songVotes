@@ -13,7 +13,7 @@
             <TableColumn fx:id="votes" prefWidth="75.0" text="Votes" />
         </columns>
       </TableView>
-      <Button fx:id="load" layoutX="163.0" layoutY="291.0" mnemonicParsing="false" onAction="#load" text="Load" />
-      <Button fx:id="check" layoutX="59.0" layoutY="78.0" mnemonicParsing="false" onAction="#check" text="Check" />
+      <Button fx:id="load" layoutX="122.0" layoutY="289.0" mnemonicParsing="false" onAction="#load" text="Show All Songs" />
+      <Button fx:id="check" layoutX="59.0" layoutY="78.0" mnemonicParsing="false" onAction="#check" text="Load File" />
    </children>
 </Pane>
