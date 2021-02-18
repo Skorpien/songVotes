@@ -27,11 +27,11 @@ public class DbServiceTest {
     public void getAllSongs() {
         //Before
         List<Song> songs = new ArrayList<>();
-        Song song1 = new Song(1L,"as", "ss", 1L);
-        Song song2 = new Song(2L,"qw", "qq", 2L);
+      //  Song song1 = new Song(1L,"as", "ss", 1L);
+       // Song song2 = new Song(2L,"qw", "qq", 2L);
 
-        songs.add(song1);
-        songs.add(song2);
+       // songs.add(song1);
+        //songs.add(song2);
 
         //When
         Mockito.when(songRepository.findAll()).thenReturn(songs);

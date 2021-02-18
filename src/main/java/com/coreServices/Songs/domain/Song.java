@@ -4,10 +4,7 @@ import com.opencsv.bean.CsvBindByName;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Objects;
@@ -27,8 +24,16 @@ public class Song {
     @CsvBindByName(column = "Author")
     private String author;
 
+    @CsvBindByName(column = "Album")
+    private String album;
+
+    @CsvBindByName(column = "Category")
+    @Enumerated(EnumType.STRING)
+    private Category category;
+
     @CsvBindByName(column = "Votes")
     private Long votes;
+
 
     public void addVote() {
         setVotes(getVotes()+1L);
@@ -63,6 +68,14 @@ public class Song {
         return author;
     }
 
+    public String getAlbum() {
+        return album;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
     public Long getVotes() {
         return votes;
     }
@@ -79,6 +92,16 @@ public class Song {
     @XmlElement(name = "author")
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    @XmlElement(name = "album")
+    public void setAlbum(String album) {
+        this.album = album;
+    }
+
+    @XmlElement(name = "category")
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     @XmlElement(name = "votes")

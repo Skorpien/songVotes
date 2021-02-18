@@ -42,18 +42,15 @@ public class DbService {
 
     public void csvReader(String file) throws Exception {
         List<Song> newSongs = csvParserParser.csvRead(file);
-        List<Song> songs = checker.checkingTheSame(newSongs, getAllSongs());
-        if (!songs.isEmpty()) {
-            for (Song song : songs) {
-                saveSong(song);
-            }
-        }
-        checkSongs(newSongs, songs);
-        newSongs.clear();
+        read(newSongs);
     }
 
     public void xmlReader(File file) throws Exception {
         List<Song> newSongs = xmlParser.xmlRead(file);
+        read(newSongs);
+    }
+
+    public void read(List<Song> newSongs) throws Exception {
         List<Song> songs = checker.checkingTheSame(newSongs, getAllSongs());
         if (!songs.isEmpty()) {
             for (Song song : songs) {

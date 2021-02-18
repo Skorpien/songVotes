@@ -1,5 +1,6 @@
 package com.coreServices.Songs.controller;
 
+import com.coreServices.Songs.domain.Category;
 import com.coreServices.Songs.domain.Song;
 import com.coreServices.Songs.service.DbService;
 import javafx.collections.FXCollections;
@@ -18,6 +19,7 @@ import java.io.File;
 @Controller
 public class JavaFxController {
 
+
     @FXML
     private TableView<Song> table;
     @FXML
@@ -26,6 +28,10 @@ public class JavaFxController {
     private TableColumn<Song, String> title;
     @FXML
     private TableColumn<Song, String> author;
+    @FXML
+    public TableColumn<Song, String> album;
+    @FXML
+    public TableColumn<Song, Category> genre;
     @FXML
     private TableColumn<Song, Long> votes;
     private Stage stage;
@@ -38,6 +44,8 @@ public class JavaFxController {
         id.setCellValueFactory(new PropertyValueFactory<Song, Long>("id"));
         title.setCellValueFactory(new PropertyValueFactory<Song, String>("title"));
         author.setCellValueFactory(new PropertyValueFactory<Song, String>("author"));
+        album.setCellValueFactory(new PropertyValueFactory<Song, String>("album"));
+        genre.setCellValueFactory(new PropertyValueFactory<Song, Category>("genre"));
         votes.setCellValueFactory(new PropertyValueFactory<Song, Long>("votes"));
     }
 
@@ -70,8 +78,10 @@ public class JavaFxController {
     }
 
 
-    public void load(ActionEvent actionEvent) {
+    public void load(ActionEvent actionEvent) throws Exception {
         table.refresh();
         table.setItems(FXCollections.observableArrayList(service.getAllSongs()));
+
+        System.out.println(service.getSongById(1L).getCategory());
     }
 }
