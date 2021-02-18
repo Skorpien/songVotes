@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class DbService {
@@ -32,8 +33,8 @@ public class DbService {
         return songRepository.findAll();
     }
 
-    public Song saveSong(final Song song) {
-        return songRepository.save(song);
+    public void saveSong(final Song song) {
+        songRepository.save(song);
     }
 
     public Song getSongById(Long id) throws Exception {
@@ -49,10 +50,24 @@ public class DbService {
         }
     }
 
-    public void xmlReader(File file) throws IOException {
-        List<Song> songs = checker.checkingTheSame(xmlParser.xmlRead(file), getAllSongs());
+    public void xmlReader(File file) throws Exception {
+        List<Song> newSongs = xmlParser.xmlRead(file);
+        List<Song> songs = checker.checkingTheSame(newSongs, getAllSongs());
         if (!songs.isEmpty()) {
             for (Song song : songs) {
+                saveSong(song);
+            }
+        }
+        checkSongs(newSongs, songs);
+        newSongs.clear();
+    }
+
+    public void checkSongs(List<Song> newSongs, List<Song> addedSongs) throws Exception {
+        Map<Long, Song> songsToUpdate = checker.updateSongs(newSongs, addedSongs, getAllSongs());
+        if(!songsToUpdate.isEmpty()) {
+            for (Map.Entry<Long, Song> entry : songsToUpdate.entrySet()) {
+                Song song = getSongById(entry.getKey());
+                song.setVotes(song.getVotes() + entry.getValue().getVotes());
                 saveSong(song);
             }
         }

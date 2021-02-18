@@ -3,29 +3,17 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane alignment="CENTER" hgap="10.0" vgap="10.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.coreServices.Songs.controller.JavaFxController">
-    <columnConstraints>
-      <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
-        <ColumnConstraints />
-      <ColumnConstraints />
-      <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
-      <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
-    </columnConstraints>
-    <rowConstraints>
-      <RowConstraints minHeight="10.0" prefHeight="30.0" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" />
-        <RowConstraints />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" />
-    </rowConstraints>
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.coreServices.Songs.controller.JavaFxController">
    <children>
-      <Button fx:id="button" mnemonicParsing="false" onAction="#myAction" text="Button" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-      <Button fx:id="open" mnemonicParsing="false" onAction="#open" text="Button" />
-      <TableView prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="3">
+      <TableView fx:id="table" layoutX="251.0" layoutY="21.0" prefHeight="357.0" prefWidth="347.0">
         <columns>
-          <TableColumn prefWidth="83.19998472929001" text="C1" />
-          <TableColumn prefWidth="67.20001220703125" text="C2" />
+          <TableColumn fx:id="id" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="title" prefWidth="75.0" text="Title" />
+            <TableColumn fx:id="author" prefWidth="75.0" text="Author" />
+            <TableColumn fx:id="votes" prefWidth="75.0" text="Votes" />
         </columns>
       </TableView>
+      <Button fx:id="load" layoutX="163.0" layoutY="291.0" mnemonicParsing="false" onAction="#load" text="Load" />
+      <Button fx:id="check" layoutX="59.0" layoutY="78.0" mnemonicParsing="false" onAction="#check" text="Check" />
    </children>
-</GridPane>
+</Pane>
