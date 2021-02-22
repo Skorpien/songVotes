@@ -78,4 +78,15 @@ public class DbService {
         return top10;
     }
 
+    public List<Song> getByCategory(Category category) {
+        List<Song> allSongs = getAllSongs();
+        List<Song> byCategory = new ArrayList<>();
+        for(Song song : allSongs) {
+            if(song.getCategory().equals(category)) {
+                byCategory.add(song);
+            }
+        }
+        return byCategory;
+    }
+
 }

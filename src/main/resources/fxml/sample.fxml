@@ -20,5 +20,6 @@
       <Button fx:id="top3" layoutX="14.0" layoutY="166.0" mnemonicParsing="false" onAction="#top3" text="TOP3" />
       <Button fx:id="top10" layoutX="79.0" layoutY="166.0" mnemonicParsing="false" onAction="#top10" text="TOP10" />
       <Button layoutX="88.0" layoutY="236.0" mnemonicParsing="false" onAction="#addVote" text="Add Vote" />
+      <ChoiceBox fx:id="categoryBox" layoutX="46.0" layoutY="71.0" prefWidth="150.0" onAction="#setCategoryBox" />
    </children>
 </Pane>

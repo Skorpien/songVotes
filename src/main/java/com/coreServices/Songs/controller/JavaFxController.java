@@ -6,6 +6,7 @@ import com.coreServices.Songs.service.DbService;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -20,6 +21,7 @@ import java.io.File;
 public class JavaFxController {
 
 
+    public ChoiceBox<Category> categoryBox;
     @FXML
     private TableView<Song> table;
     @FXML
@@ -47,6 +49,7 @@ public class JavaFxController {
         album.setCellValueFactory(new PropertyValueFactory<Song, String>("album"));
         genre.setCellValueFactory(new PropertyValueFactory<Song, Category>("category"));
         votes.setCellValueFactory(new PropertyValueFactory<Song, Long>("votes"));
+        categoryBox.getItems().addAll(Category.values());
     }
 
 
@@ -97,5 +100,11 @@ public class JavaFxController {
     public void addVote(ActionEvent actionEvent) {
         table.getSelectionModel().getSelectedItem().addVote();
         table.refresh();
+    }
+
+    public void setCategoryBox(ActionEvent actionEvent) {
+        Category category = categoryBox.getValue();
+        table.refresh();
+        table.setItems(FXCollections.observableArrayList(service.getByCategory(category)));
     }
 }
