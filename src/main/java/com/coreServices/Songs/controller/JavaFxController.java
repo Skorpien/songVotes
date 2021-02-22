@@ -45,7 +45,7 @@ public class JavaFxController {
         title.setCellValueFactory(new PropertyValueFactory<Song, String>("title"));
         author.setCellValueFactory(new PropertyValueFactory<Song, String>("author"));
         album.setCellValueFactory(new PropertyValueFactory<Song, String>("album"));
-        genre.setCellValueFactory(new PropertyValueFactory<Song, Category>("genre"));
+        genre.setCellValueFactory(new PropertyValueFactory<Song, Category>("category"));
         votes.setCellValueFactory(new PropertyValueFactory<Song, Long>("votes"));
     }
 
@@ -58,16 +58,16 @@ public class JavaFxController {
         );
         File file = fileChooser.showOpenDialog(stage);
 
-        if (file != null) {
+        if (file != null) { // go to DbService
             if (file.getAbsolutePath().endsWith(".csv")) {
                 try {
-                    service.csvReader(file.toString());
+                    service.readCsvFile(file.toString());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             } else if (file.getAbsolutePath().endsWith(".xml")){
                 try {
-                    service.xmlReader(file);
+                    service.readXmlFile(file);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -77,11 +77,25 @@ public class JavaFxController {
         }
     }
 
+    public void top3(ActionEvent actionEvent) {
+        table.refresh();
+        table.setItems(FXCollections.observableArrayList(service.getTop3()));
+    }
 
-    public void load(ActionEvent actionEvent) throws Exception {
+    public void top10(ActionEvent actionEvent) {
+        table.refresh();
+        table.setItems(FXCollections.observableArrayList(service.getTop10()));
+    }
+
+    public void load(ActionEvent actionEvent) {
         table.refresh();
         table.setItems(FXCollections.observableArrayList(service.getAllSongs()));
 
-        System.out.println(service.getSongById(1L).getCategory());
+        System.out.println(service.getSongById(1).getCategory()); //for test only
+    }
+
+    public void addVote(ActionEvent actionEvent) {
+        table.getSelectionModel().getSelectedItem().addVote();
+        table.refresh();
     }
 }

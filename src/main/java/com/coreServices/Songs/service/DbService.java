@@ -1,22 +1,16 @@
 package com.coreServices.Songs.service;
 
-import com.coreServices.Songs.domain.CsvParser;
-import com.coreServices.Songs.domain.Song;
-import com.coreServices.Songs.domain.SongChecker;
-import com.coreServices.Songs.domain.XmlParser;
-import com.coreServices.Songs.repository.SongRepository;
+import com.coreServices.Songs.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class DbService {
-
-    @Autowired
-    private SongRepository songRepository;
 
     @Autowired
     private CsvParser csvParserParser;
@@ -25,50 +19,63 @@ public class DbService {
     private XmlParser xmlParser;
 
     @Autowired
-    private SongChecker checker;
+    private SongsDb songsDb;
 
 
     public List<Song> getAllSongs() {
-        return songRepository.findAll();
+        return songsDb.getSongList();
     }
 
     public void saveSong(final Song song) {
-        songRepository.save(song);
+        songsDb.addSong(song);
     }
 
-    public Song getSongById(Long id) throws Exception {
-        return songRepository.findById(id).orElseThrow(Exception::new);
+    public Song getSongById(int id) {
+        return songsDb.getSongById(id);
     }
 
-    public void csvReader(String file) throws Exception {
+    public void readCsvFile(String file) throws Exception {
         List<Song> newSongs = csvParserParser.csvRead(file);
-        read(newSongs);
+        for (Song song : newSongs) {
+            saveSong(song);
+        }
     }
 
-    public void xmlReader(File file) throws Exception {
+    public void readXmlFile(File file) {
         List<Song> newSongs = xmlParser.xmlRead(file);
-        read(newSongs);
-    }
-
-    public void read(List<Song> newSongs) throws Exception {
-        List<Song> songs = checker.checkingTheSame(newSongs, getAllSongs());
-        if (!songs.isEmpty()) {
-            for (Song song : songs) {
-                saveSong(song);
-            }
-        }
-        checkSongs(newSongs, songs);
-        newSongs.clear();
-    }
-
-    public void checkSongs(List<Song> newSongs, List<Song> addedSongs) throws Exception {
-        Map<Long, Song> songsToUpdate = checker.updateSongs(newSongs, addedSongs, getAllSongs());
-        if(!songsToUpdate.isEmpty()) {
-            for (Map.Entry<Long, Song> entry : songsToUpdate.entrySet()) {
-                Song song = getSongById(entry.getKey());
-                song.setVotes(song.getVotes() + entry.getValue().getVotes());
-                saveSong(song);
-            }
+        for (Song song : newSongs) {
+            saveSong(song);
         }
     }
+
+    public List<Song> getTop3() {
+        List<Song> allSongs = getAllSongs();
+        allSongs.sort(Comparator.comparing(Song::getVotes).reversed());
+        List<Song> top3 = new ArrayList<>();
+        if(allSongs.size()>=3) {
+            for (int i = 0; i < 3; i++) {
+                top3.add(allSongs.get(i));
+            }
+        }else {
+            top3.addAll(allSongs);
+            System.out.println("There is not enough songs");
+        }
+        return top3;
+    }
+
+    public List<Song> getTop10() {
+        List<Song> allSongs = getAllSongs();
+        allSongs.sort(Comparator.comparing(Song::getVotes).reversed());
+        List<Song> top10 = new ArrayList<>();
+        if(allSongs.size()>=10) {
+            for (int i = 0; i < 10; i++) {
+                top10.add(allSongs.get(i));
+            }
+        }else {
+            top10.addAll(allSongs);
+            System.out.println("There is not enough songs");
+        }
+        return top10;
+    }
+
 }

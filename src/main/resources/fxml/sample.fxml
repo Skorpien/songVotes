@@ -15,7 +15,10 @@
             <TableColumn fx:id="votes" prefWidth="45.199981689453125" text="Votes" />
         </columns>
       </TableView>
-      <Button fx:id="load" layoutX="59.0" layoutY="289.0" mnemonicParsing="false" onAction="#load" text="Show All Songs" />
-      <Button fx:id="check" layoutX="59.0" layoutY="78.0" mnemonicParsing="false" onAction="#check" text="Load File" />
+      <Button fx:id="load" layoutX="14.0" layoutY="119.0" mnemonicParsing="false" onAction="#load" text="Show All Songs" />
+      <Button fx:id="check" layoutX="14.0" layoutY="22.0" mnemonicParsing="false" onAction="#check" text="Load File" />
+      <Button fx:id="top3" layoutX="14.0" layoutY="166.0" mnemonicParsing="false" onAction="#top3" text="TOP3" />
+      <Button fx:id="top10" layoutX="79.0" layoutY="166.0" mnemonicParsing="false" onAction="#top10" text="TOP10" />
+      <Button layoutX="88.0" layoutY="236.0" mnemonicParsing="false" onAction="#addVote" text="Add Vote" />
    </children>
 </Pane>

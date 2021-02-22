@@ -4,19 +4,18 @@ import com.opencsv.bean.CsvBindByName;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+//import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity(name = "songs")
+//@Entity(name = "songs")
 @XmlRootElement(name = "song")
 public class Song {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+  //  @Id
+  //  @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
 
     @CsvBindByName(column = "Title")
     private String title;
@@ -28,12 +27,25 @@ public class Song {
     private String album;
 
     @CsvBindByName(column = "Category")
-    @Enumerated(EnumType.STRING)
+   // @Enumerated(EnumType.STRING)
     private Category category;
 
     @CsvBindByName(column = "Votes")
     private Long votes;
 
+    private static final AtomicInteger ID_GENERATOR = new AtomicInteger(0);
+
+    public Song() {
+        id=ID_GENERATOR.incrementAndGet();
+    }
+
+    public Song(String title, String author, String album, Category category, Long votes) {
+        this.title = title;
+        this.author = author;
+        this.album = album;
+        this.category = category;
+        this.votes = votes;
+    }
 
     public void addVote() {
         setVotes(getVotes()+1L);
@@ -56,7 +68,7 @@ public class Song {
         return Objects.hash(title, author);
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
@@ -80,9 +92,9 @@ public class Song {
         return votes;
     }
 
-    public void setId(Long id) {
+/*    public void setId(int id) {
         this.id = id;
-    }
+    }*/
 
     @XmlElement(name = "title")
     public void setTitle(String title) {

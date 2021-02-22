@@ -18,9 +18,16 @@ public class SongChecker {
         return addedList;
     }
 
-    public Map<Long,Song> updateSongs(List<Song> newSongsList, List<Song> addedSongs, List<Song> currentSongsList) {
-        Map<Long, Song> songMap = new HashMap<>();
-        newSongsList.removeAll(addedSongs);
+    public List<Song> updateSongs(List<Song> newSongsList, List<Song> currentSongsList) {
+     //   Map<Long, Song> songMap = new HashMap<>();
+
+        for(Song song: newSongsList) {
+            if(currentSongsList.contains(song)) {
+                currentSongsList.get(currentSongsList.lastIndexOf(song))
+                        .setVotes(currentSongsList.get(currentSongsList.lastIndexOf(song)).getVotes() + song.getVotes());
+            }
+        }
+        /*newSongsList.removeAll(addedSongs);
         if(!currentSongsList.isEmpty()) {
             for (Song value : currentSongsList) {
                 for (Song song : newSongsList) {
@@ -29,8 +36,8 @@ public class SongChecker {
                     }
                 }
             }
-        }
-            return songMap;
+        }*/
+            return currentSongsList;
 
     }
 }
