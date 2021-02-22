@@ -1,20 +1,14 @@
 package com.coreServices.Songs.domain;
 
 import com.opencsv.bean.CsvBindByName;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-
-//import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
-//@Entity(name = "songs")
 @XmlRootElement(name = "song")
 public class Song {
-  //  @Id
-  //  @GeneratedValue(strategy = GenerationType.AUTO)
+
     private int id;
 
     @CsvBindByName(column = "Title")
@@ -26,9 +20,10 @@ public class Song {
     @CsvBindByName(column = "Album")
     private String album;
 
-    @CsvBindByName(column = "Category")
-   // @Enumerated(EnumType.STRING)
     private Category category;
+
+    @CsvBindByName(column = "Category")
+    private String genre;
 
     @CsvBindByName(column = "Votes")
     private Long votes;
@@ -39,11 +34,12 @@ public class Song {
         id=ID_GENERATOR.incrementAndGet();
     }
 
-    public Song(String title, String author, String album, Category category, Long votes) {
+    public Song(String title, String author, String album, String genre, Long votes) {
         this.title = title;
         this.author = author;
         this.album = album;
-        this.category = category;
+        this.genre = genre;
+        this.category = Category.valueOfLabel(genre);
         this.votes = votes;
     }
 
@@ -84,6 +80,10 @@ public class Song {
         return album;
     }
 
+    public String getGenre() {
+        return genre;
+    }
+
     public Category getCategory() {
         return category;
     }
@@ -112,6 +112,12 @@ public class Song {
     }
 
     @XmlElement(name = "category")
+    public void setGenre(String genre) {
+        this.genre = genre;
+        this.category = Category.valueOfLabel(genre);
+    }
+
+
     public void setCategory(Category category) {
         this.category = category;
     }

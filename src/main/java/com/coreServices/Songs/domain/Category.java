@@ -5,15 +5,23 @@ import javax.xml.bind.annotation.XmlEnum;
 
 @XmlEnum
 public enum Category {
-    Rock, Metal, HIPHOP, Blues, Jazz, Country, Soul, Dance, Other, Alternative, RNB;
+    ROCK("Rock"), METAL("Metal"), HIPHOP("HipHop"), BLUES("Blues"), JAZZ("Jazz"), COUNTRY("Country"),
+    SOUL("Soul"), DANCE("Dance"), ALTERNATIVE("Alternative"), RNB("R&B"), OTHER("Other");
 
-  /*  public static Category category(String token)
-    {
-        return Category.valueOf(token);
+    private final String label;
+
+    Category(String label) {
+        this.label = label;
     }
-    public static String token(Category c)
-    {
-        return c.name();
-    }*/
-}
 
+    public static Category valueOfLabel(String label) {
+        for (Category e : values()) {
+            if (e.label.equals(label)) {
+                return e;
+            }
+        }
+        return Category.OTHER;
+    }
+
+
+}
