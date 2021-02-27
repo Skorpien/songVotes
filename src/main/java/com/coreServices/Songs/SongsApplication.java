@@ -34,7 +34,7 @@ public class SongsApplication extends Application {
 		fxmlLoader.setLocation(getClass().getResource("/fxml/sample.fxml"));
 		rootNode = fxmlLoader.load();
 
-		primaryStage.setTitle("Hello World");
+		primaryStage.setTitle("Songs");
 		Scene scene = new Scene(rootNode, 800, 600);
 		primaryStage.setScene(scene);
 		primaryStage.show();

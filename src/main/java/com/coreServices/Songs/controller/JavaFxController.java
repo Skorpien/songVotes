@@ -3,6 +3,8 @@ package com.coreServices.Songs.controller;
 import com.coreServices.Songs.domain.Category;
 import com.coreServices.Songs.domain.Song;
 import com.coreServices.Songs.service.DbService;
+import com.opencsv.exceptions.CsvDataTypeMismatchException;
+import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.io.File;
+import java.io.IOException;
 
 @Controller
 public class JavaFxController {
@@ -94,11 +97,15 @@ public class JavaFxController {
         table.refresh();
         table.setItems(FXCollections.observableArrayList(service.getAllSongs()));
 
-        System.out.println(service.getSongById(1).getCategory()); //for test only
+        System.out.println(service.getSongById(1).getGenre()); //for test only
     }
 
     public void addVote(ActionEvent actionEvent) {
-        table.getSelectionModel().getSelectedItem().addVote();
+        try {
+            table.getSelectionModel().getSelectedItem().addVote();
+        } catch (NullPointerException e) {
+            System.out.println("List is empty");
+        }
         table.refresh();
     }
 
@@ -106,5 +113,23 @@ public class JavaFxController {
         Category category = categoryBox.getValue();
         table.refresh();
         table.setItems(FXCollections.observableArrayList(service.getByCategory(category)));
+    }
+
+    public void saveToFile(ActionEvent actionEvent) throws CsvRequiredFieldEmptyException, IOException, CsvDataTypeMismatchException {
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter xml = new FileChooser.ExtensionFilter("XML Files", "*.xml");
+        FileChooser.ExtensionFilter csv = new FileChooser.ExtensionFilter("CSV files", "*.csv");
+        fileChooser.getExtensionFilters().addAll(csv, xml);
+
+
+        File file = fileChooser.showSaveDialog(stage);
+        if(file.getAbsolutePath().endsWith(".csv")) {
+            service.writeToCsvFile(table.getItems(), file.getAbsolutePath());
+        } else if(file.getAbsolutePath().endsWith(".xml")) {
+            service.writeToXmlFile(table.getItems(), file.getAbsolutePath());
+        } else {
+            System.out.println("something wrong");
+        }
+
     }
 }

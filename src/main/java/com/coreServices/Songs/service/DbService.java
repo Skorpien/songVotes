@@ -1,10 +1,13 @@
 package com.coreServices.Songs.service;
 
 import com.coreServices.Songs.domain.*;
+import com.opencsv.exceptions.CsvDataTypeMismatchException;
+import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -13,7 +16,7 @@ import java.util.List;
 public class DbService {
 
     @Autowired
-    private CsvParser csvParserParser;
+    private CsvParser csvParser;
 
     @Autowired
     private XmlParser xmlParser;
@@ -35,10 +38,14 @@ public class DbService {
     }
 
     public void readCsvFile(String file) throws Exception {
-        List<Song> newSongs = csvParserParser.csvRead(file);
+        List<Song> newSongs = csvParser.csvRead(file);
         for (Song song : newSongs) {
             saveSong(song);
         }
+    }
+
+    public void writeToCsvFile(List<Song> songs, String path) throws CsvRequiredFieldEmptyException, IOException, CsvDataTypeMismatchException {
+        csvParser.csvWrite(songs, path);
     }
 
     public void readXmlFile(File file) {
@@ -46,6 +53,10 @@ public class DbService {
         for (Song song : newSongs) {
             saveSong(song);
         }
+    }
+
+    public void writeToXmlFile(List<Song> songs, String path) {
+        xmlParser.xmlWrite(songs, path);
     }
 
     public List<Song> getTop3() {
@@ -82,7 +93,7 @@ public class DbService {
         List<Song> allSongs = getAllSongs();
         List<Song> byCategory = new ArrayList<>();
         for(Song song : allSongs) {
-            if(song.getCategory().equals(category)) {
+            if(song.getGenre().equals(category)) {
                 byCategory.add(song);
             }
         }

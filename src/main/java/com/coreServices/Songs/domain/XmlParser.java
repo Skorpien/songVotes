@@ -2,9 +2,8 @@ package com.coreServices.Songs.domain;
 
 import org.springframework.stereotype.Component;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.*;
+import javax.xml.namespace.QName;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
@@ -30,6 +29,7 @@ public class XmlParser {
                 if (reader.isStartElement() && "song".equals(reader.getLocalName())) {
                     Song song = (Song) unmarshaller.unmarshal(reader);
                     songs.add(song);
+                    song.setCategory(song.getCategory());
                 }
                 reader.next();
             }
@@ -37,5 +37,30 @@ public class XmlParser {
             ex.printStackTrace();
         }
         return songs;
+    }
+
+    public void xmlWrite(List<Song> songs, String path)
+    {
+        try
+        {
+            //Create JAXB Context
+            JAXBContext jaxbContext = JAXBContext.newInstance(com.coreServices.Songs.domain.Song.class);
+            
+            //Create Marshaller
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+
+            //Required formatting??
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+            //Store XML to File
+            File file = new File(path);
+
+            //Writes XML file to file-system
+            jaxbMarshaller.marshal(songs, file);
+        }
+        catch (JAXBException e)
+        {
+            e.printStackTrace();
+        }
     }
 }

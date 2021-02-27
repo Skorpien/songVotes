@@ -1,30 +1,39 @@
 package com.coreServices.Songs.domain;
 
 import com.opencsv.bean.CsvBindByName;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @XmlRootElement(name = "song")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Song {
 
     private int id;
 
+    @XmlElement(name = "title")
     @CsvBindByName(column = "Title")
     private String title;
 
+    @XmlElement(name = "author")
     @CsvBindByName(column = "Author")
     private String author;
 
+    @XmlElement(name = "album")
     @CsvBindByName(column = "Album")
     private String album;
 
-    private Category category;
+    private Category genre;
 
+    @XmlElement(name = "category")
     @CsvBindByName(column = "Category")
-    private String genre;
+    private String category;
 
+    @XmlElement(name = "votes")
     @CsvBindByName(column = "Votes")
     private Long votes;
 
@@ -34,12 +43,12 @@ public class Song {
         id=ID_GENERATOR.incrementAndGet();
     }
 
-    public Song(String title, String author, String album, String genre, Long votes) {
+    public Song(String title, String author, String album, String category, Long votes) {
         this.title = title;
         this.author = author;
         this.album = album;
-        this.genre = genre;
-        this.category = Category.valueOfLabel(genre);
+        this.category = category;
+        this.genre = Category.valueOfLabel(category);
         this.votes = votes;
     }
 
@@ -68,25 +77,30 @@ public class Song {
         return id;
     }
 
+
     public String getTitle() {
         return title;
     }
+
 
     public String getAuthor() {
         return author;
     }
 
+
     public String getAlbum() {
         return album;
     }
 
-    public String getGenre() {
+
+    public String getCategory() {
+        return category;
+    }
+
+    public Category getGenre() {
         return genre;
     }
 
-    public Category getCategory() {
-        return category;
-    }
 
     public Long getVotes() {
         return votes;
@@ -96,33 +110,28 @@ public class Song {
         this.id = id;
     }*/
 
-    @XmlElement(name = "title")
+
     public void setTitle(String title) {
         this.title = title;
     }
 
-    @XmlElement(name = "author")
     public void setAuthor(String author) {
         this.author = author;
     }
 
-    @XmlElement(name = "album")
     public void setAlbum(String album) {
         this.album = album;
     }
 
-    @XmlElement(name = "category")
-    public void setGenre(String genre) {
-        this.genre = genre;
-        this.category = Category.valueOfLabel(genre);
-    }
-
-
-    public void setCategory(Category category) {
+    public void setCategory(String category) {
         this.category = category;
+        this.genre = Category.valueOfLabel(category);
     }
 
-    @XmlElement(name = "votes")
+    public void setGenre(Category genre) {
+        this.genre = genre;
+    }
+
     public void setVotes(Long votes) {
         this.votes = votes;
     }
