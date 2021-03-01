@@ -3,7 +3,6 @@ package com.coreServices.Songs.domain;
 import org.springframework.stereotype.Component;
 
 import javax.xml.bind.*;
-import javax.xml.namespace.QName;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
@@ -29,7 +28,7 @@ public class XmlParser {
                 if (reader.isStartElement() && "song".equals(reader.getLocalName())) {
                     Song song = (Song) unmarshaller.unmarshal(reader);
                     songs.add(song);
-                    song.setCategory(song.getCategory());
+                 //   song.setCategory(song.getCategory());
                 }
                 reader.next();
             }
@@ -41,22 +40,19 @@ public class XmlParser {
 
     public void xmlWrite(List<Song> songs, String path)
     {
+        SongsWrapper listOfSongs = new SongsWrapper();
+        listOfSongs.setSongList(songs);
         try
         {
-            //Create JAXB Context
-            JAXBContext jaxbContext = JAXBContext.newInstance(com.coreServices.Songs.domain.Song.class);
-            
-            //Create Marshaller
+            JAXBContext jaxbContext = JAXBContext.newInstance(SongsWrapper.class);
+
             Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 
-            //Required formatting??
             jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
-            //Store XML to File
             File file = new File(path);
 
-            //Writes XML file to file-system
-            jaxbMarshaller.marshal(songs, file);
+            jaxbMarshaller.marshal(listOfSongs, file);
         }
         catch (JAXBException e)
         {

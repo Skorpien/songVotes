@@ -8,6 +8,7 @@ import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -25,6 +26,11 @@ public class JavaFxController {
 
 
     public ChoiceBox<Category> categoryBox;
+    public Button top3;
+    public Button top10;
+    public Button saveToFile;
+    public Button addVote;
+    public Button load;
     @FXML
     private TableView<Song> table;
     @FXML
@@ -52,6 +58,12 @@ public class JavaFxController {
         album.setCellValueFactory(new PropertyValueFactory<Song, String>("album"));
         genre.setCellValueFactory(new PropertyValueFactory<Song, Category>("category"));
         votes.setCellValueFactory(new PropertyValueFactory<Song, Long>("votes"));
+        top3.setDisable(true);
+        top10.setDisable(true);
+        saveToFile.setDisable(true);
+        addVote.setDisable(true);
+        load.setDisable(true);
+        categoryBox.setDisable(true);
         categoryBox.getItems().addAll(Category.values());
     }
 
@@ -81,6 +93,15 @@ public class JavaFxController {
                 System.out.println("something wrong");
             }
         }
+
+        if(!service.getAllSongs().isEmpty()) {
+            top3.setDisable(false);
+            top10.setDisable(false);
+            saveToFile.setDisable(false);
+            addVote.setDisable(false);
+            load.setDisable(false);
+            categoryBox.setDisable(false);
+        }
     }
 
     public void top3(ActionEvent actionEvent) {
@@ -97,7 +118,7 @@ public class JavaFxController {
         table.refresh();
         table.setItems(FXCollections.observableArrayList(service.getAllSongs()));
 
-        System.out.println(service.getSongById(1).getGenre()); //for test only
+        System.out.println(service.getSongById(1).getCategory()); //for test only
     }
 
     public void addVote(ActionEvent actionEvent) {
@@ -123,13 +144,15 @@ public class JavaFxController {
 
 
         File file = fileChooser.showSaveDialog(stage);
-        if(file.getAbsolutePath().endsWith(".csv")) {
-            service.writeToCsvFile(table.getItems(), file.getAbsolutePath());
-        } else if(file.getAbsolutePath().endsWith(".xml")) {
-            service.writeToXmlFile(table.getItems(), file.getAbsolutePath());
-        } else {
-            System.out.println("something wrong");
-        }
+        if (file != null) {
+            if (file.getAbsolutePath().endsWith(".csv")) {
+                service.writeToCsvFile(table.getItems(), file.getAbsolutePath());
+            } else if (file.getAbsolutePath().endsWith(".xml")) {
+                service.writeToXmlFile(table.getItems(), file.getAbsolutePath());
+            } else {
+                System.out.println("something wrong");
+            }
 
+        }
     }
 }

@@ -1,11 +1,9 @@
 package com.coreServices.Songs.domain;
 
 import com.opencsv.bean.CsvBindByName;
+import com.opencsv.bean.CsvBindByPosition;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -27,11 +25,12 @@ public class Song {
     @CsvBindByName(column = "Album")
     private String album;
 
-    private Category genre;
+
+    private Category category;
 
     @XmlElement(name = "category")
     @CsvBindByName(column = "Category")
-    private String category;
+    private String genre;
 
     @XmlElement(name = "votes")
     @CsvBindByName(column = "Votes")
@@ -43,12 +42,12 @@ public class Song {
         id=ID_GENERATOR.incrementAndGet();
     }
 
-    public Song(String title, String author, String album, String category, Long votes) {
+    public Song(String title, String author, String album, String genre, Long votes) {
         this.title = title;
         this.author = author;
         this.album = album;
-        this.category = category;
-        this.genre = Category.valueOfLabel(category);
+        this.genre = genre;
+        this.category = Category.valueOfLabel(genre);
         this.votes = votes;
     }
 
@@ -93,11 +92,11 @@ public class Song {
     }
 
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public Category getGenre() {
+    public String getGenre() {
         return genre;
     }
 
@@ -123,16 +122,26 @@ public class Song {
         this.album = album;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         this.category = category;
-        this.genre = Category.valueOfLabel(category);
     }
 
-    public void setGenre(Category genre) {
+/*    public void categoryForParse() {
+        this.category = Category.valueOfLabel(category.toString());
+    }*/
+
+
+    public void setGenre(String genre) {
         this.genre = genre;
+        this.category = Category.valueOfLabel(genre);
     }
+
 
     public void setVotes(Long votes) {
         this.votes = votes;
+    }
+
+    public void setGenreToNull() {
+        this.genre = null;
     }
 }

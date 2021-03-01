@@ -32,6 +32,9 @@ application {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation group: 'org.openjfx', name: 'javafx', version: '11', ext: 'pom'
+	implementation 'javax.xml.bind:jaxb-api:2.3.0'		//xml
+	implementation 'javax.activation:activation:1.1' 	//xml
+	implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.0'	 //xml
 	//implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'junit:junit:4.12'
 	implementation group: 'com.opencsv', name: 'opencsv', version: '5.3'

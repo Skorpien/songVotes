@@ -93,7 +93,7 @@ public class DbService {
         List<Song> allSongs = getAllSongs();
         List<Song> byCategory = new ArrayList<>();
         for(Song song : allSongs) {
-            if(song.getGenre().equals(category)) {
+            if(song.getCategory().equals(category)) {
                 byCategory.add(song);
             }
         }
