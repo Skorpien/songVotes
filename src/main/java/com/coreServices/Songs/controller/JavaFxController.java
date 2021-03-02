@@ -5,13 +5,10 @@ import com.coreServices.Songs.domain.Song;
 import com.coreServices.Songs.service.DbService;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -25,38 +22,41 @@ import java.io.IOException;
 public class JavaFxController {
 
     @FXML
-    private Button clearVotes;
+    public MenuItem loadFile;
     @FXML
-    private Button clearAllVotes;
+    public MenuItem saveFile;
     @FXML
-    private ChoiceBox<Category> categoryBox;
+    public Button clearVotes;
     @FXML
-    private Button top3;
+    public MenuItem clearAllVotes;
     @FXML
-    private Button top10;
+    public ChoiceBox<Category> categoryBox;
     @FXML
-    private Button saveToFile;
+    public Button showAllSongs;
     @FXML
-    private Button addVote;
+    public Button top3;
     @FXML
-    private Button load;
+    public Button top10;
     @FXML
-    private TableView<Song> table;
+    public Button addVote;
     @FXML
-    private TableColumn<Song, Long> id;
+    public TableView<Song> table;
     @FXML
-    private TableColumn<Song, String> title;
+    public TableColumn<Song, Long> id;
     @FXML
-    private TableColumn<Song, String> author;
+    public TableColumn<Song, String> title;
+    @FXML
+    public TableColumn<Song, String> author;
     @FXML
     public TableColumn<Song, String> album;
     @FXML
     public TableColumn<Song, Category> genre;
     @FXML
-    private TableColumn<Song, Long> votes;
-    private Stage stage;
+    public TableColumn<Song, Long> votes;
+    public Stage stage;
     @Autowired
-    private DbService service;
+    public DbService service;
+
 
 
     @FXML
@@ -67,19 +67,71 @@ public class JavaFxController {
         album.setCellValueFactory(new PropertyValueFactory<>("album"));
         genre.setCellValueFactory(new PropertyValueFactory<>("category"));
         votes.setCellValueFactory(new PropertyValueFactory<>("votes"));
+        showAllSongs.setDisable(true);
         top3.setDisable(true);
         top10.setDisable(true);
-        saveToFile.setDisable(true);
         addVote.setDisable(true);
-        load.setDisable(true);
         clearVotes.setDisable(true);
         clearAllVotes.setDisable(true);
         categoryBox.setDisable(true);
+        saveFile.setDisable(true);
         categoryBox.getItems().addAll(Category.values());
     }
 
+    public void showAllSongs() {
+        table.refresh();
+        table.setItems(FXCollections
+                .observableArrayList(service.getAllSongs()));
+    }
 
-    public void check() {
+    public void top3() {
+        table.refresh();
+        table.setItems(FXCollections.observableArrayList(service.getTop3()));
+    }
+
+    public void top10() {
+        table.refresh();
+        table.setItems(FXCollections.observableArrayList(service.getTop10()));
+    }
+
+    public void addVote() {
+        try {
+            table.getSelectionModel().getSelectedItem().addVote();
+        } catch (NullPointerException e) {
+            System.out.println("List is empty");
+        }
+        table.refresh();
+    }
+
+    public void setCategoryBox() {
+        Category category = categoryBox.getValue();
+        table.refresh();
+        table.setItems(FXCollections
+                .observableArrayList(service.getByCategory(category)));
+    }
+
+
+    public void clearVotes() {
+        try {
+            table.getSelectionModel().getSelectedItem().clearVotes();
+            table.refresh();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void clearAllVotes() {
+        try {
+            for (Song song : service.getAllSongs()) {
+                song.clearVotes();
+                table.refresh();
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadFile() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("CSV files", "*.csv"),
@@ -104,55 +156,25 @@ public class JavaFxController {
                 System.out.println("something wrong");
             }
         }
-
         if (!service.getAllSongs().isEmpty()) {
             top3.setDisable(false);
             top10.setDisable(false);
-            saveToFile.setDisable(false);
             addVote.setDisable(false);
-            load.setDisable(false);
             clearVotes.setDisable(false);
             clearAllVotes.setDisable(false);
+            saveFile.setDisable(false);
+            showAllSongs.setDisable(false);
             categoryBox.setDisable(false);
         }
     }
 
-    public void top3(ActionEvent actionEvent) {
-        table.refresh();
-        table.setItems(FXCollections.observableArrayList(service.getTop3()));
-    }
-
-    public void top10(ActionEvent actionEvent) {
-        table.refresh();
-        table.setItems(FXCollections.observableArrayList(service.getTop10()));
-    }
-
-    public void load(ActionEvent actionEvent) {
-        table.refresh();
-        table.setItems(FXCollections.observableArrayList(service.getAllSongs()));
-
-        System.out.println(service.getSongById(1).getCategory()); //for test only
-    }
-
-    public void addVote(ActionEvent actionEvent) {
-        try {
-            table.getSelectionModel().getSelectedItem().addVote();
-        } catch (NullPointerException e) {
-            System.out.println("List is empty");
-        }
-        table.refresh();
-    }
-
-    public void setCategoryBox(ActionEvent actionEvent) {
-        Category category = categoryBox.getValue();
-        table.refresh();
-        table.setItems(FXCollections.observableArrayList(service.getByCategory(category)));
-    }
-
-    public void saveToFile(ActionEvent actionEvent) throws CsvRequiredFieldEmptyException, IOException, CsvDataTypeMismatchException {
+    public void saveFile() throws CsvRequiredFieldEmptyException,
+            IOException, CsvDataTypeMismatchException {
         FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter xml = new FileChooser.ExtensionFilter("XML Files", "*.xml");
-        FileChooser.ExtensionFilter csv = new FileChooser.ExtensionFilter("CSV files", "*.csv");
+        FileChooser.ExtensionFilter xml = new FileChooser
+                .ExtensionFilter("XML Files", "*.xml");
+        FileChooser.ExtensionFilter csv = new FileChooser
+                .ExtensionFilter("CSV files", "*.csv");
         fileChooser.getExtensionFilters().addAll(csv, xml);
 
 
@@ -169,23 +191,8 @@ public class JavaFxController {
         }
     }
 
-    public void clearVotes(ActionEvent actionEvent) {
-        try {
-            table.getSelectionModel().getSelectedItem().clearVotes();
-            table.refresh();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
+    public void close() {
+        Platform.exit();
     }
 
-    public void clearAllVotes(ActionEvent actionEvent) {
-        try {
-            for (Song song : service.getAllSongs()) {
-                song.clearVotes();
-                table.refresh();
-            }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-    }
 }

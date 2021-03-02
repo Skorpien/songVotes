@@ -27,8 +27,6 @@ public class XmlParser {
                 if (reader.isStartElement() && "song".equals(reader.getLocalName())) {
                     Song song = (Song) unmarshaller.unmarshal(reader);
                     song.setGenre(song.getGenre());
-                    System.out.println("enum: " + song.getCategory());
-                    System.out.println("string: " + song.getGenre());
                     songs.add(song);
                 }
                 reader.next();

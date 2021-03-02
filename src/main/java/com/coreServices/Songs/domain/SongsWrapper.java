@@ -19,9 +19,6 @@ public class SongsWrapper {
     }
 
     public void setSongList(List<Song> songs) {
-        this.songList = songs;
-        for(Song song: songs) {
-            song.deleteId();
-        }
+        this.songList = new ArrayList<>(songs);
     }
 }

@@ -2,7 +2,6 @@ package com.coreServices.Songs.domain;
 
 import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvCustomBindByName;
-
 import javax.xml.bind.annotation.*;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -11,6 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Song {
 
+    @XmlTransient
     private Integer id;
 
     @XmlElement(name = "title")
@@ -81,16 +81,13 @@ public class Song {
         return title;
     }
 
-
     public String getAuthor() {
         return author;
     }
 
-
     public String getAlbum() {
         return album;
     }
-
 
     public Category getCategory() {
         return category;
@@ -100,11 +97,9 @@ public class Song {
         return genre;
     }
 
-
     public Long getVotes() {
         return votes;
     }
-
 
 
     public void setTitle(String title) {
@@ -124,22 +119,12 @@ public class Song {
         this.genre = category.getLabel();
     }
 
-
     public void setGenre(String genre) {
         this.genre = genre;
         this.category = Category.valueOfLabel(genre);
     }
 
-
     public void setVotes(Long votes) {
         this.votes = votes;
-    }
-
-    public void deleteId() {
-        this.id = null;
-    }
-
-    public void setCorrectValue(String value) {
-        this.genre = Category.valueOfLabel(value).getLabel();
     }
 }

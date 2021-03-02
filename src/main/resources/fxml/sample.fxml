@@ -2,10 +2,11 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.coreServices.Songs.controller.JavaFxController">
    <children>
-      <TableView fx:id="table" layoutX="253.0" layoutY="22.0" prefHeight="357.0" prefWidth="347.0">
+      <TableView fx:id="table" layoutX="253.0" layoutY="35.0" prefHeight="357.0" prefWidth="347.0">
         <columns>
           <TableColumn fx:id="id" prefWidth="24.199981689453125" text="ID" />
           <TableColumn fx:id="title" prefWidth="64.0" text="Title" />
@@ -15,14 +16,32 @@
             <TableColumn fx:id="votes" prefWidth="45.199981689453125" text="Votes" />
         </columns>
       </TableView>
-      <Button fx:id="load" layoutX="14.0" layoutY="119.0" mnemonicParsing="false" onAction="#load" text="Show All Songs" />
-      <Button fx:id="check" layoutX="14.0" layoutY="22.0" mnemonicParsing="false" onAction="#check" text="Load File" />
-      <Button fx:id="top3" layoutX="14.0" layoutY="166.0" mnemonicParsing="false" onAction="#top3" text="TOP3" />
-      <Button fx:id="top10" layoutX="79.0" layoutY="166.0" mnemonicParsing="false" onAction="#top10" text="TOP10" />
-      <Button fx:id="addVote" layoutX="88.0" layoutY="213.0" mnemonicParsing="false" onAction="#addVote" text="Add Vote" />
+      <Button fx:id="showAllSongs" layoutX="46.0" layoutY="110.0" mnemonicParsing="false" onAction="#showAllSongs" prefHeight="38.0" prefWidth="150.0" text="Show All Songs" />
+      <Button fx:id="top3" layoutX="50.0" layoutY="166.0" mnemonicParsing="false" onAction="#top3" text="TOP3" />
+      <Button fx:id="top10" layoutX="148.0" layoutY="166.0" mnemonicParsing="false" onAction="#top10" text="TOP10" />
+      <Button fx:id="addVote" layoutX="88.0" layoutY="213.0" mnemonicParsing="false" onAction="#addVote" prefHeight="38.0" prefWidth="66.0" text="Add Vote" />
       <ChoiceBox fx:id="categoryBox" layoutX="46.0" layoutY="71.0" onAction="#setCategoryBox" prefWidth="150.0" />
-      <Button fx:id="saveToFile" layoutX="86.0" layoutY="307.0" mnemonicParsing="false" onAction="#saveToFile" text="Save to File" />
-      <Button fx:id="clearVotes" layoutX="8.0" layoutY="254.0" mnemonicParsing="false" onAction="#clearVotes" text="Clear Votes" />
-      <Button fx:id="clearAllVotes" layoutX="124.0" layoutY="254.0" mnemonicParsing="false" onAction="#clearAllVotes" text="Clear ALL Votes" />
+      <Button fx:id="clearVotes" layoutX="83.0" layoutY="291.0" mnemonicParsing="false" onAction="#clearVotes" text="Clear Votes" />
+      <MenuBar layoutY="1.0" prefHeight="26.0" prefWidth="600.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+                  <MenuItem id="loadFile" fx:id="loadFile" mnemonicParsing="false" onAction="#loadFile" text="Load File" />
+              <MenuItem id="saveFile" fx:id="saveFile" mnemonicParsing="false" onAction="#saveFile" text="Save File" />
+                  <MenuItem fx:id="close" mnemonicParsing="false" onAction="#close" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem fx:id="clearAllVotes" mnemonicParsing="false" onAction="#clearAllVotes" text="Clear All Votes" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <Label layoutX="55.0" layoutY="44.0" prefHeight="27.0" prefWidth="132.0" text="Show by Genre">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
    </children>
 </Pane>

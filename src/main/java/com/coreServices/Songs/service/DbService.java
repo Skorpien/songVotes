@@ -33,29 +33,30 @@ public class DbService {
         songsDb.addSong(song);
     }
 
-    public Song getSongById(int id) {
+ /*   public Song getSongById(int id) {
         return songsDb.getSongById(id);
-    }
+    }*/
 
-    public void readCsvFile(String file) throws Exception {
+    public void readCsvFile(final String file) throws Exception {
         List<Song> newSongs = csvParser.csvRead(file);
         for (Song song : newSongs) {
             saveSong(song);
         }
     }
 
-    public void writeToCsvFile(List<Song> songs, String path) throws CsvRequiredFieldEmptyException, IOException, CsvDataTypeMismatchException {
+    public void writeToCsvFile(final List<Song> songs, final String path) throws CsvRequiredFieldEmptyException,
+            IOException, CsvDataTypeMismatchException {
         csvParser.csvWrite(songs, path);
     }
 
-    public void readXmlFile(File file) {
+    public void readXmlFile(final File file) {
         List<Song> newSongs = xmlParser.xmlRead(file);
         for (Song song : newSongs) {
             saveSong(song);
         }
     }
 
-    public void writeToXmlFile(List<Song> songs, String path) {
+    public void writeToXmlFile(final List<Song> songs, final String path) {
         xmlParser.xmlWrite(songs, path);
     }
 
@@ -63,11 +64,11 @@ public class DbService {
         List<Song> allSongs = getAllSongs();
         allSongs.sort(Comparator.comparing(Song::getVotes).reversed());
         List<Song> top3 = new ArrayList<>();
-        if(allSongs.size()>=3) {
+        if (allSongs.size() >= 3) {
             for (int i = 0; i < 3; i++) {
                 top3.add(allSongs.get(i));
             }
-        }else {
+        } else {
             top3.addAll(allSongs);
             System.out.println("There is not enough songs");
         }
@@ -78,11 +79,11 @@ public class DbService {
         List<Song> allSongs = getAllSongs();
         allSongs.sort(Comparator.comparing(Song::getVotes).reversed());
         List<Song> top10 = new ArrayList<>();
-        if(allSongs.size()>=10) {
+        if (allSongs.size() >= 10) {
             for (int i = 0; i < 10; i++) {
                 top10.add(allSongs.get(i));
             }
-        }else {
+        } else {
             top10.addAll(allSongs);
             System.out.println("There is not enough songs");
         }
@@ -92,8 +93,8 @@ public class DbService {
     public List<Song> getByCategory(Category category) {
         List<Song> allSongs = getAllSongs();
         List<Song> byCategory = new ArrayList<>();
-        for(Song song : allSongs) {
-            if(song.getCategory().equals(category)) {
+        for (Song song : allSongs) {
+            if (song.getCategory().equals(category)) {
                 byCategory.add(song);
             }
         }

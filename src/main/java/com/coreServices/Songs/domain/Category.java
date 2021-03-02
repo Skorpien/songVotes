@@ -1,9 +1,6 @@
 package com.coreServices.Songs.domain;
 
-
 import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
-
 
 @XmlEnum
 public enum Category {
@@ -36,14 +33,5 @@ public enum Category {
 
     public String getLabel() {
         return label;
-    }
-
-    public static Category type(String value)
-    {
-        return Category.valueOf(value);
-    }
-    public static String value(Category category)
-    {
-        return category.name();
     }
 }

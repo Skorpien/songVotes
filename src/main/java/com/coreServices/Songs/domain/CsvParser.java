@@ -18,7 +18,7 @@ import java.util.List;
 @Component
 public class CsvParser {
 
-    public List<Song> csvRead(String file) throws IOException {
+    public List<Song> csvRead(final String file) throws IOException {
 
         return new CsvToBeanBuilder<Song>(new FileReader(file))
                 .withType(Song.class)
@@ -26,7 +26,8 @@ public class CsvParser {
                 .parse();
     }
 
-    public void csvWrite(List<Song> songs, String path) throws IOException, CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
+    public void csvWrite(final List<Song> songs, final String path) throws IOException,
+            CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
 
         Writer writer = Files.newBufferedWriter(Paths.get(path));
 
