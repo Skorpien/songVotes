@@ -24,13 +24,22 @@ import java.io.IOException;
 @Controller
 public class JavaFxController {
 
-
-    public ChoiceBox<Category> categoryBox;
-    public Button top3;
-    public Button top10;
-    public Button saveToFile;
-    public Button addVote;
-    public Button load;
+    @FXML
+    private Button clearVotes;
+    @FXML
+    private Button clearAllVotes;
+    @FXML
+    private ChoiceBox<Category> categoryBox;
+    @FXML
+    private Button top3;
+    @FXML
+    private Button top10;
+    @FXML
+    private Button saveToFile;
+    @FXML
+    private Button addVote;
+    @FXML
+    private Button load;
     @FXML
     private TableView<Song> table;
     @FXML
@@ -52,17 +61,19 @@ public class JavaFxController {
 
     @FXML
     public void initialize() {
-        id.setCellValueFactory(new PropertyValueFactory<Song, Long>("id"));
-        title.setCellValueFactory(new PropertyValueFactory<Song, String>("title"));
-        author.setCellValueFactory(new PropertyValueFactory<Song, String>("author"));
-        album.setCellValueFactory(new PropertyValueFactory<Song, String>("album"));
-        genre.setCellValueFactory(new PropertyValueFactory<Song, Category>("category"));
-        votes.setCellValueFactory(new PropertyValueFactory<Song, Long>("votes"));
+        id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        title.setCellValueFactory(new PropertyValueFactory<>("title"));
+        author.setCellValueFactory(new PropertyValueFactory<>("author"));
+        album.setCellValueFactory(new PropertyValueFactory<>("album"));
+        genre.setCellValueFactory(new PropertyValueFactory<>("category"));
+        votes.setCellValueFactory(new PropertyValueFactory<>("votes"));
         top3.setDisable(true);
         top10.setDisable(true);
         saveToFile.setDisable(true);
         addVote.setDisable(true);
         load.setDisable(true);
+        clearVotes.setDisable(true);
+        clearAllVotes.setDisable(true);
         categoryBox.setDisable(true);
         categoryBox.getItems().addAll(Category.values());
     }
@@ -83,7 +94,7 @@ public class JavaFxController {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            } else if (file.getAbsolutePath().endsWith(".xml")){
+            } else if (file.getAbsolutePath().endsWith(".xml")) {
                 try {
                     service.readXmlFile(file);
                 } catch (Exception e) {
@@ -94,12 +105,14 @@ public class JavaFxController {
             }
         }
 
-        if(!service.getAllSongs().isEmpty()) {
+        if (!service.getAllSongs().isEmpty()) {
             top3.setDisable(false);
             top10.setDisable(false);
             saveToFile.setDisable(false);
             addVote.setDisable(false);
             load.setDisable(false);
+            clearVotes.setDisable(false);
+            clearAllVotes.setDisable(false);
             categoryBox.setDisable(false);
         }
     }
@@ -153,6 +166,26 @@ public class JavaFxController {
                 System.out.println("something wrong");
             }
 
+        }
+    }
+
+    public void clearVotes(ActionEvent actionEvent) {
+        try {
+            table.getSelectionModel().getSelectedItem().clearVotes();
+            table.refresh();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void clearAllVotes(ActionEvent actionEvent) {
+        try {
+            for (Song song : service.getAllSongs()) {
+                song.clearVotes();
+                table.refresh();
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
     }
 }

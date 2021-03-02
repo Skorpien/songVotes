@@ -1,7 +1,7 @@
 package com.coreServices.Songs.domain;
 
 import com.opencsv.bean.CsvBindByName;
-import com.opencsv.bean.CsvBindByPosition;
+import com.opencsv.bean.CsvCustomBindByName;
 
 import javax.xml.bind.annotation.*;
 import java.util.Objects;
@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Song {
 
-    private int id;
+    private Integer id;
 
     @XmlElement(name = "title")
     @CsvBindByName(column = "Title")
@@ -25,11 +25,11 @@ public class Song {
     @CsvBindByName(column = "Album")
     private String album;
 
-
+    @XmlTransient
+    @CsvCustomBindByName(column = "Category", converter = CsvConverter.class)
     private Category category;
 
     @XmlElement(name = "category")
-    @CsvBindByName(column = "Category")
     private String genre;
 
     @XmlElement(name = "votes")
@@ -39,7 +39,7 @@ public class Song {
     private static final AtomicInteger ID_GENERATOR = new AtomicInteger(0);
 
     public Song() {
-        id=ID_GENERATOR.incrementAndGet();
+        id = ID_GENERATOR.incrementAndGet();
     }
 
     public Song(String title, String author, String album, String genre, Long votes) {
@@ -52,7 +52,7 @@ public class Song {
     }
 
     public void addVote() {
-        setVotes(getVotes()+1L);
+        setVotes(getVotes() + 1L);
     }
 
     public void clearVotes() {
@@ -105,9 +105,6 @@ public class Song {
         return votes;
     }
 
-/*    public void setId(int id) {
-        this.id = id;
-    }*/
 
 
     public void setTitle(String title) {
@@ -124,11 +121,8 @@ public class Song {
 
     public void setCategory(Category category) {
         this.category = category;
+        this.genre = category.getLabel();
     }
-
-/*    public void categoryForParse() {
-        this.category = Category.valueOfLabel(category.toString());
-    }*/
 
 
     public void setGenre(String genre) {
@@ -141,7 +135,11 @@ public class Song {
         this.votes = votes;
     }
 
-    public void setGenreToNull() {
-        this.genre = null;
+    public void deleteId() {
+        this.id = null;
+    }
+
+    public void setCorrectValue(String value) {
+        this.genre = Category.valueOfLabel(value).getLabel();
     }
 }

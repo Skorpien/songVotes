@@ -13,7 +13,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 @SpringBootApplication
 public class SongsApplication extends Application {
 	private ConfigurableApplicationContext springContext;
-	private Parent rootNode;
 	private FXMLLoader fxmlLoader;
 
 	public static void main(String[] args) {
@@ -32,7 +31,7 @@ public class SongsApplication extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		fxmlLoader.setLocation(getClass().getResource("/fxml/sample.fxml"));
-		rootNode = fxmlLoader.load();
+		Parent rootNode = fxmlLoader.load();
 
 		primaryStage.setTitle("Songs");
 		Scene scene = new Scene(rootNode, 800, 600);

@@ -1,15 +1,14 @@
 package com.coreServices.Songs.domain;
 
-import org.springframework.stereotype.Component;
-
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import javax.xml.bind.*;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.transform.stream.StreamSource;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.stereotype.Component;
 
 @Component
 public class XmlParser {
@@ -27,8 +26,10 @@ public class XmlParser {
             while(reader.getEventType() != XMLStreamReader.END_DOCUMENT) {
                 if (reader.isStartElement() && "song".equals(reader.getLocalName())) {
                     Song song = (Song) unmarshaller.unmarshal(reader);
+                    song.setGenre(song.getGenre());
+                    System.out.println("enum: " + song.getCategory());
+                    System.out.println("string: " + song.getGenre());
                     songs.add(song);
-                 //   song.setCategory(song.getCategory());
                 }
                 reader.next();
             }
