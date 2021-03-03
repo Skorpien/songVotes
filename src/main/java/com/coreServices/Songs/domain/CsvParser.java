@@ -31,7 +31,6 @@ public class CsvParser {
 
         Writer writer = Files.newBufferedWriter(Paths.get(path));
 
-
         StatefulBeanToCsv<Song> beanToCsv = new StatefulBeanToCsvBuilder<Song>(writer)
                 .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
                 .build();

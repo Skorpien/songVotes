@@ -8,10 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
@@ -31,28 +28,46 @@ public class DbServiceTest {
     @Test
     public void getAllSongsTest() {
         //Given
-        List<Song> songs = new ArrayList<>();
-        songs.add(new Song());
-        songs.add(new Song());
+        SongsDb songs = new SongsDb();
+        songs.addSong(new Song());
 
         //When
-        when(service.getAllSongs()).thenReturn(songs);
+        when(songsDb.getSongList()).thenReturn(songs.getSongList());
 
         //Then
         List<Song> testList = service.getAllSongs();
 
-        Assert.assertEquals(songs.size(), testList.size());
-        Assert.assertEquals(songs.get(0).getId(), testList.get(0).getId());
-        Assert.assertEquals(songs.get(1).getId(), testList.get(1).getId());
+        Assert.assertEquals(songs.getSongList().size(), testList.size());
+        Assert.assertEquals(songs.getSongList().get(0).getId(), testList.get(0).getId());
     }
 
     @Test
     public void saveSong() {
+        //Given
+        Song song = new Song();
+
+        //When
+        doNothing().when(songsDb).addSong(song);
+
+        //Then
+        service.saveSong(song);
+        verify(songsDb,times(1)).addSong(song);
 
     }
 
     @Test
     public void readCsvFile() {
+     /*   //When
+        InputStream stream = new ByteArrayInputStream("title,author,album,Rock, 2".getBytes());
+
+
+        //When
+        when(csvParser.csvRead(stream)).thenCallRealMethod();
+
+        //Then
+        List<Song> songs = csvParser.csvRead(stream.toString());
+        assertEquals("Title", songs.get(0).getTitle());*/
+
     }
 
     @Test
@@ -70,14 +85,14 @@ public class DbServiceTest {
     @Test
     public void getTop3Test() {
         //Given
-        List<Song> songs = new ArrayList<>();
-        songs.add(new Song("song1", 3L));
-        songs.add(new Song("song2", 5L));
-        songs.add(new Song("song3", 6L));
-        songs.add(new Song("song4", 8L));
+        SongsDb songs = new SongsDb();
+        songs.addSong(new Song("song1", 3L));
+        songs.addSong(new Song("song2", 5L));
+        songs.addSong(new Song("song3", 6L));
+        songs.addSong(new Song("song4", 8L));
 
         //When
-        when(service.getTop3()).thenReturn(songs);
+        when(songsDb.getSongList()).thenReturn(songs.getSongList());
 
         //Then
         List<Song> testList = service.getTop3();
@@ -90,22 +105,22 @@ public class DbServiceTest {
     @Test
     public void getTop10Test() {
         //Given
-        List<Song> songs = new ArrayList<>();
-        songs.add(new Song("song1", 3L));
-        songs.add(new Song("song2", 5L));
-        songs.add(new Song("song3", 6L));
-        songs.add(new Song("song4", 8L));
-        songs.add(new Song("song5", 11L));
-        songs.add(new Song("song6", 7L));
-        songs.add(new Song("song7", 5L));
-        songs.add(new Song("song8", 4L));
-        songs.add(new Song("song9", 3L));
-        songs.add(new Song("song10", 0L));
-        songs.add(new Song("song11", 1L));
-        songs.add(new Song("song12", 2L));
+        SongsDb songs = new SongsDb();
+        songs.addSong(new Song("song1", 3L));
+        songs.addSong(new Song("song2", 5L));
+        songs.addSong(new Song("song3", 6L));
+        songs.addSong(new Song("song4", 8L));
+        songs.addSong(new Song("song5", 11L));
+        songs.addSong(new Song("song6", 7L));
+        songs.addSong(new Song("song7", 5L));
+        songs.addSong(new Song("song8", 4L));
+        songs.addSong(new Song("song9", 3L));
+        songs.addSong(new Song("song10", 0L));
+        songs.addSong(new Song("song11", 1L));
+        songs.addSong(new Song("song12", 2L));
 
         //When
-        when(service.getTop10()).thenReturn(songs);
+        when(songsDb.getSongList()).thenReturn(songs.getSongList());
 
         //Then
         List<Song> testList = service.getTop10();
@@ -117,19 +132,19 @@ public class DbServiceTest {
     @Test
     public void getByCategoryTest() {
         //Given
-        List<Song> songs = new ArrayList<>();
-        Song song1 = new Song();
-        Song song2 = new Song();
-        Song song3 = new Song();
+        SongsDb songs = new SongsDb();
+        Song song1 = new Song("title1", "author1");
+        Song song2 = new Song("title2", "author3");
+        Song song3 = new Song("title3", "author3");
         song1.setCategory(Category.BLUES);
         song2.setCategory(Category.COUNTRY);
         song3.setCategory(Category.BLUES);
-        songs.add(song1);
-        songs.add(song2);
-        songs.add(song3);
+        songs.addSong(song1);
+        songs.addSong(song2);
+        songs.addSong(song3);
 
         //When
-        when(service.getByCategory(Category.BLUES)).thenReturn(songs);
+        when(songsDb.getSongList()).thenReturn(songs.getSongList());
 
         //Then
         List<Song> testList = service.getByCategory(Category.BLUES);
