@@ -5,6 +5,7 @@ import com.coreServices.Songs.domain.Song;
 import com.coreServices.Songs.service.DbService;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
+
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -82,6 +83,7 @@ public class JavaFxController {
         table.refresh();
         table.setItems(FXCollections
                 .observableArrayList(service.getAllSongs()));
+
     }
 
     public void top3() {
@@ -139,23 +141,8 @@ public class JavaFxController {
         );
         File file = fileChooser.showOpenDialog(stage);
 
-        if (file != null) { // go to DbService
-            if (file.getAbsolutePath().endsWith(".csv")) {
-                try {
-                    service.readCsvFile(file.toString());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else if (file.getAbsolutePath().endsWith(".xml")) {
-                try {
-                    service.readXmlFile(file);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else {
-                System.out.println("something wrong");
-            }
-        }
+        service.parserChecker(file);
+
         if (!service.getAllSongs().isEmpty()) {
             top3.setDisable(false);
             top10.setDisable(false);

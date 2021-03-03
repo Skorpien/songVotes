@@ -37,6 +37,26 @@ public class DbService {
         return songsDb.getSongById(id);
     }*/
 
+    public void parserChecker(File file) {
+        if (file != null) {
+            if (file.getAbsolutePath().endsWith(".csv")) {
+                try {
+                    readCsvFile(file.toString());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else if (file.getAbsolutePath().endsWith(".xml")) {
+                try {
+                    readXmlFile(file);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                System.out.println("something wrong");
+            }
+        }
+    }
+
     public void readCsvFile(final String file) throws Exception {
         List<Song> newSongs = csvParser.csvRead(file);
         for (Song song : newSongs) {

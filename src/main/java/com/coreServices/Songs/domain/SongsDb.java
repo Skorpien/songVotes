@@ -23,8 +23,10 @@ public class SongsDb {
     }
 
     private void updateSong(Song song) {
-        songList.get(songList.lastIndexOf(song))
-                .setVotes(songList.get(songList.lastIndexOf(song)).getVotes() + song.getVotes());
+        if (song.getVotes() != null) {
+            songList.get(songList.lastIndexOf(song))
+                    .setVotes(songList.get(songList.lastIndexOf(song)).getVotes() + song.getVotes());
+        }
     }
 
     private boolean isSongExist(Song song) {
@@ -35,12 +37,12 @@ public class SongsDb {
         return new ArrayList<>(songList);
     }
 
-    public Song getSongById(int id) {
+   /* public Song getSongById(int id) {
         for(Song song: songList) {
             if(song.getId()==id) {
                 return song;
             }
         }
         return new Song();
-    }
+    }*/
 }

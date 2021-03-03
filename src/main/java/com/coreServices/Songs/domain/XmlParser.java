@@ -19,11 +19,12 @@ public class XmlParser {
         try {
             JAXBContext context = JAXBContext.newInstance(Song.class);
             XMLInputFactory factory = XMLInputFactory.newFactory();
+            factory.setProperty("javax.xml.stream.isCoalescing", true);
             StreamSource xml = new StreamSource(file);
             XMLStreamReader reader = factory.createXMLStreamReader(xml);
 
             Unmarshaller unmarshaller = context.createUnmarshaller();
-            while(reader.getEventType() != XMLStreamReader.END_DOCUMENT) {
+            while (reader.getEventType() != XMLStreamReader.END_DOCUMENT) {
                 if (reader.isStartElement() && "song".equals(reader.getLocalName())) {
                     Song song = (Song) unmarshaller.unmarshal(reader);
                     song.setGenre(song.getGenre());
@@ -31,30 +32,28 @@ public class XmlParser {
                 }
                 reader.next();
             }
-        }catch (JAXBException | XMLStreamException ex) {
+        } catch (JAXBException | XMLStreamException ex) {
             ex.printStackTrace();
         }
         return songs;
     }
 
-    public void xmlWrite(List<Song> songs, String path)
-    {
+    public void xmlWrite(List<Song> songs, String path) {
         SongsWrapper listOfSongs = new SongsWrapper();
         listOfSongs.setSongList(songs);
         try
         {
             JAXBContext jaxbContext = JAXBContext.newInstance(SongsWrapper.class);
 
-            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+            Marshaller marshaller = jaxbContext.createMarshaller();
 
-            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
             File file = new File(path);
 
-            jaxbMarshaller.marshal(listOfSongs, file);
+            marshaller.marshal(listOfSongs, file);
         }
-        catch (JAXBException e)
-        {
+        catch (JAXBException e) {
             e.printStackTrace();
         }
     }

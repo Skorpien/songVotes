@@ -51,6 +51,18 @@ public class Song {
         this.votes = votes;
     }
 
+    public Song(String title, Long votes) {
+        id = ID_GENERATOR.incrementAndGet();
+        this.title = title;
+        this.votes = votes;
+    }
+
+    public Song(String title, String author) {
+        id = ID_GENERATOR.incrementAndGet();
+        this.title = title;
+        this.author = author;
+    }
+
     public void addVote() {
         setVotes(getVotes() + 1L);
     }
