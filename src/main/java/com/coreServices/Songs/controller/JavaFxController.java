@@ -59,7 +59,7 @@ public class JavaFxController {
     public DbService service;
 
     /**
-     * initializing table and switch off buttons until the database is loaded
+     * initializing table and switch off buttons until the database is loaded.
      */
     @FXML
     public void initialize() {
@@ -81,7 +81,7 @@ public class JavaFxController {
     }
 
     /**
-     * gets songs from the database
+     * gets songs from the database.
      */
     public void showAllSongs() {
         table.refresh();
@@ -91,7 +91,7 @@ public class JavaFxController {
     }
 
     /**
-     * shows three songs with the most votes
+     * shows three songs with the most votes.
      */
     public void top3() {
         table.refresh();
@@ -99,7 +99,7 @@ public class JavaFxController {
     }
 
     /**
-     * shows ten songs with the most votes
+     * shows ten songs with the most votes.
      */
     public void top10() {
         table.refresh();
@@ -107,7 +107,7 @@ public class JavaFxController {
     }
 
     /**
-     * adds the vote to the selected song
+     * adds the vote to the selected song.
      */
     public void addVote() {
         try {
@@ -119,7 +119,7 @@ public class JavaFxController {
     }
 
     /**
-     * shows songs from the selected category
+     * shows songs from the selected category.
      */
     public void setCategoryBox() {
         Category category = categoryBox.getValue();
@@ -129,7 +129,7 @@ public class JavaFxController {
     }
 
     /**
-     * removes votes from the selected song
+     * removes votes from the selected song.
      */
     public void clearVotes() {
         try {
@@ -141,7 +141,7 @@ public class JavaFxController {
     }
 
     /**
-     * removes votes from all songs
+     * removes votes from all songs.
      */
     public void clearAllVotes() {
         try {
@@ -156,7 +156,7 @@ public class JavaFxController {
 
     /**
      * loads the file from the localization specified by the user
-     * activates the buttons (only when file adds songs to database)
+     * activates the buttons (only when file adds songs to database).
      */
     public void loadFile() {
         FileChooser fileChooser = new FileChooser();
@@ -181,10 +181,10 @@ public class JavaFxController {
     }
 
     /**
-     * saves the file to the localization specified by the user
-     * @throws CsvRequiredFieldEmptyException
-     * @throws IOException
-     * @throws CsvDataTypeMismatchException
+     * saves the file to the localization specified by the user.
+     * @throws CsvRequiredFieldEmptyException - no data to write to the specified field
+     * @throws IOException - file was not written correctly
+     * @throws CsvDataTypeMismatchException - incorrect data in .csv file
      */
     public void saveFile() throws CsvRequiredFieldEmptyException,
             IOException, CsvDataTypeMismatchException {
@@ -210,7 +210,7 @@ public class JavaFxController {
     }
 
     /**
-     * switch off application
+     * switch off application.
      */
     public void close() {
         Platform.exit();

@@ -67,7 +67,7 @@ public class DbService {
     /**
      * sends the data retrieved from the file to the parser
      * and writes the returned values to the database.
-     * @param file
+     * @param file - holds .csv
      * @throws Exception
      */
     public void readCsvFile(final String file) throws Exception {
@@ -94,7 +94,7 @@ public class DbService {
     /**
      * sends the data retrieved from the file to the parser
      * and writes the returned values to the database.
-     * @param file
+     * @param file - holds .xml
      */
     public void readXmlFile(final File file) {
         List<Song> newSongs = xmlParser.xmlRead(file);

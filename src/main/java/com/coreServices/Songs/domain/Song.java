@@ -104,29 +104,29 @@ public class Song {
     }
 
 
-    public void setTitle(String title) {
+    public void setTitle(final String title) {
         this.title = title;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(final String author) {
         this.author = author;
     }
 
-    public void setAlbum(String album) {
+    public void setAlbum(final String album) {
         this.album = album;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(final Category category) {
         this.category = category;
         this.genre = category.getLabel();
     }
 
-    public void setGenre(String genre) {
+    public void setGenre(final String genre) {
         this.genre = genre;
         this.category = Category.valueOfLabel(genre);
     }
 
-    public void setVotes(Long votes) {
+    public void setVotes(final Long votes) {
         this.votes = votes;
     }
 }
