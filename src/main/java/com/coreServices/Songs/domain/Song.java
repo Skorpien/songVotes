@@ -34,7 +34,7 @@ public class Song {
 
     @XmlElement(name = "votes")
     @CsvBindByName(column = "Votes")
-    private Long votes;
+    private Long votes = 0L;
 
     private static final AtomicInteger ID_GENERATOR = new AtomicInteger(0);
 

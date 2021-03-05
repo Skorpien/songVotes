@@ -57,16 +57,6 @@ public class DbServiceTest {
 
     @Test
     public void readCsvFile() {
-     /*   //When
-        InputStream stream = new ByteArrayInputStream("title,author,album,Rock, 2".getBytes());
-
-
-        //When
-        when(csvParser.csvRead(stream)).thenCallRealMethod();
-
-        //Then
-        List<Song> songs = csvParser.csvRead(stream.toString());
-        assertEquals("Title", songs.get(0).getTitle());*/
 
     }
 

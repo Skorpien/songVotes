@@ -1,6 +1,7 @@
 package com.coreServices.Songs.domain;
 
 import com.opencsv.CSVWriter;
+import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
@@ -18,12 +19,18 @@ import java.util.List;
 @Component
 public class CsvParser {
 
-    public List<Song> csvRead(final String file) throws IOException {
 
-        return new CsvToBeanBuilder<Song>(new FileReader(file))
+    public List<Song> csvRead(final String file) throws IOException {
+        CsvToBean<Song> beans = new CsvToBeanBuilder<Song>(new FileReader(file))
                 .withType(Song.class)
-                .build()
-                .parse();
+                .withThrowExceptions(false)
+                .build();
+
+        List<Song> songs = beans.parse();
+
+        beans.getCapturedExceptions()
+                .forEach(e -> System.out.println("The song in line " + e.getLineNumber() + " has incorrect data"));
+        return songs;
     }
 
     public void csvWrite(final List<Song> songs, final String path) throws IOException,

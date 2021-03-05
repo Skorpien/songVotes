@@ -13,9 +13,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class XmlParser {
 
-    private final List<Song> songs = new ArrayList<>();
+    private final SongsChecker checker = new SongsChecker();
 
     public List<Song> xmlRead(File file) {
+        List<Song> songs = new ArrayList<>();
         try {
             JAXBContext context = JAXBContext.newInstance(Song.class);
             XMLInputFactory factory = XMLInputFactory.newFactory();
@@ -27,13 +28,15 @@ public class XmlParser {
             while (reader.getEventType() != XMLStreamReader.END_DOCUMENT) {
                 if (reader.isStartElement() && "song".equals(reader.getLocalName())) {
                     Song song = (Song) unmarshaller.unmarshal(reader);
-                    song.setGenre(song.getGenre());
-                    songs.add(song);
+                    if(checker.checkParsedSongs(song)) {
+                        song.setGenre(song.getGenre());
+                        songs.add(song);
+                    }
                 }
                 reader.next();
             }
         } catch (JAXBException | XMLStreamException ex) {
-            ex.printStackTrace();
+            System.out.println("problem with file");
         }
         return songs;
     }
