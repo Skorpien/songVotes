@@ -13,9 +13,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class XmlParser {
 
-    private final SongsChecker checker = new SongsChecker();
-
-    public List<Song> xmlRead(File file) {
+    /**
+     * read .xml file, parse to Song.class.
+     * @param file - file with .xml extension
+     * @return - list of songs parsed from .xml file
+     */
+    public List<Song> xmlRead(final File file) {
         List<Song> songs = new ArrayList<>();
         try {
             JAXBContext context = JAXBContext.newInstance(Song.class);
@@ -25,15 +28,17 @@ public class XmlParser {
             XMLStreamReader reader = factory.createXMLStreamReader(xml);
 
             Unmarshaller unmarshaller = context.createUnmarshaller();
+            int i = -2;
             while (reader.getEventType() != XMLStreamReader.END_DOCUMENT) {
                 if (reader.isStartElement() && "song".equals(reader.getLocalName())) {
                     Song song = (Song) unmarshaller.unmarshal(reader);
-                    if(checker.checkParsedSongs(song)) {
+                    if (checkParsedSongs(song, i)) {
                         song.setGenre(song.getGenre());
                         songs.add(song);
                     }
                 }
                 reader.next();
+                i++;
             }
         } catch (JAXBException | XMLStreamException ex) {
             System.out.println("problem with file");
@@ -41,11 +46,15 @@ public class XmlParser {
         return songs;
     }
 
-    public void xmlWrite(List<Song> songs, String path) {
+    /**
+     * write to .xml file from list of Song.class objects.
+     * @param songs - song list sent for writing
+     * @param path - user-specified write location
+     */
+    public void xmlWrite(final List<Song> songs, final String path) {
         SongsWrapper listOfSongs = new SongsWrapper();
         listOfSongs.setSongList(songs);
-        try
-        {
+        try {
             JAXBContext jaxbContext = JAXBContext.newInstance(SongsWrapper.class);
 
             Marshaller marshaller = jaxbContext.createMarshaller();
@@ -55,9 +64,25 @@ public class XmlParser {
             File file = new File(path);
 
             marshaller.marshal(listOfSongs, file);
-        }
-        catch (JAXBException e) {
+        } catch (JAXBException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * validation method used for xmlRead method.
+     * @param song - object sent for validation
+     * @param i - iteration, used to find out where the error is in the file
+     * @return - true if the object has properly initialized fields
+     */
+    public boolean checkParsedSongs(final Song song, final int i) {
+        if (song.getTitle() == null || song.getAuthor() == null
+                || song.getAlbum() == null || song.getGenre() == null) {
+            System.out.println("The song in position "
+                    + i
+                    + " has incorrect data");
+            return false;
+        }
+        return true;
     }
 }

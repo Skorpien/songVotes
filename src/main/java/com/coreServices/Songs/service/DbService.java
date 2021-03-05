@@ -24,20 +24,27 @@ public class DbService {
     @Autowired
     private SongsDb songsDb;
 
-
+    /**
+     * retrieves a song list from the database.
+     * @return - song list from database
+     */
     public List<Song> getAllSongs() {
         return songsDb.getSongList();
     }
 
+    /**
+     * save song to database.
+     * @param song - song to save
+     */
     public void saveSong(final Song song) {
         songsDb.addSong(song);
     }
 
- /*   public Song getSongById(int id) {
-        return songsDb.getSongById(id);
-    }*/
-
-    public void parserChecker(File file) {
+    /**
+     * check that file is .csv or .xml and sends to the appropriate function.
+     * @param file - holds .csv or .xml
+     */
+    public void parserChecker(final File file) {
         if (file != null) {
             if (file.getAbsolutePath().endsWith(".csv")) {
                 try {
@@ -57,6 +64,12 @@ public class DbService {
         }
     }
 
+    /**
+     * sends the data retrieved from the file to the parser
+     * and writes the returned values to the database.
+     * @param file
+     * @throws Exception
+     */
     public void readCsvFile(final String file) throws Exception {
         List<Song> newSongs = csvParser.csvRead(file);
         for (Song song : newSongs) {
@@ -64,11 +77,25 @@ public class DbService {
         }
     }
 
-    public void writeToCsvFile(final List<Song> songs, final String path) throws CsvRequiredFieldEmptyException,
+    /**
+     * sends the song list and the user-selected save location to the parser.
+     * @param songs
+     * @param path
+     * @throws CsvRequiredFieldEmptyException
+     * @throws IOException
+     * @throws CsvDataTypeMismatchException
+     */
+    public void writeToCsvFile(final List<Song> songs, final String path)
+            throws CsvRequiredFieldEmptyException,
             IOException, CsvDataTypeMismatchException {
         csvParser.csvWrite(songs, path);
     }
 
+    /**
+     * sends the data retrieved from the file to the parser
+     * and writes the returned values to the database.
+     * @param file
+     */
     public void readXmlFile(final File file) {
         List<Song> newSongs = xmlParser.xmlRead(file);
         for (Song song : newSongs) {
@@ -76,10 +103,19 @@ public class DbService {
         }
     }
 
+    /**
+     * sends the song list and the user-selected save location to the parser.
+     * @param songs
+     * @param path
+     */
     public void writeToXmlFile(final List<Song> songs, final String path) {
         xmlParser.xmlWrite(songs, path);
     }
 
+    /**
+     * finds the 3 songs with the most votes.
+     * @return - list of 3 songs with the most votes in descending order
+     */
     public List<Song> getTop3() {
         List<Song> allSongs = getAllSongs();
         allSongs.sort(Comparator.comparing(Song::getVotes).reversed());
@@ -95,6 +131,10 @@ public class DbService {
         return top3;
     }
 
+    /**
+     * finds the 10 songs with the most votes.
+     * @return - list of 10 songs with the most votes in descending order
+     */
     public List<Song> getTop10() {
         List<Song> allSongs = getAllSongs();
         allSongs.sort(Comparator.comparing(Song::getVotes).reversed());
@@ -110,7 +150,12 @@ public class DbService {
         return top10;
     }
 
-    public List<Song> getByCategory(Category category) {
+    /**
+     * searches for songs by a category selected by the user.
+     * @param category
+     * @return - list of songs from the selected category
+     */
+    public List<Song> getByCategory(final Category category) {
         List<Song> allSongs = getAllSongs();
         List<Song> byCategory = new ArrayList<>();
         for (Song song : allSongs) {

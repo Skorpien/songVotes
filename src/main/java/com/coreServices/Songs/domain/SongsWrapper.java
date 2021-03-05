@@ -18,7 +18,7 @@ public class SongsWrapper {
         return songList;
     }
 
-    public void setSongList(List<Song> songs) {
+    public void setSongList(final List<Song> songs) {
         this.songList = new ArrayList<>(songs);
     }
 }

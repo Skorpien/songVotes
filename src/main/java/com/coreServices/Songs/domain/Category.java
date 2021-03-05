@@ -2,6 +2,9 @@ package com.coreServices.Songs.domain;
 
 import javax.xml.bind.annotation.XmlEnum;
 
+/**
+ * enums with values of Category field.
+ */
 @XmlEnum
 public enum Category {
     ROCK("Rock"),
@@ -22,6 +25,11 @@ public enum Category {
         this.label = label;
     }
 
+    /**
+     *
+     * @param label - String value at which the enum is searched for
+     * @return - matching enum
+     */
     public static Category valueOfLabel(final String label) {
         for (Category e : values()) {
             if (e.label.equalsIgnoreCase(label)) {

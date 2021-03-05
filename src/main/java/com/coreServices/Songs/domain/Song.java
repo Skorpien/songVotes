@@ -42,22 +42,13 @@ public class Song {
         id = ID_GENERATOR.incrementAndGet();
     }
 
-    public Song(String title, String author, String album, String genre, Long votes) {
-        this.title = title;
-        this.author = author;
-        this.album = album;
-        this.genre = genre;
-        this.category = Category.valueOfLabel(genre);
-        this.votes = votes;
-    }
-
-    public Song(String title, Long votes) {
+    public Song(final String title, final Long votes) {
         id = ID_GENERATOR.incrementAndGet();
         this.title = title;
         this.votes = votes;
     }
 
-    public Song(String title, String author) {
+    public Song(final String title, final String author) {
         id = ID_GENERATOR.incrementAndGet();
         this.title = title;
         this.author = author;
@@ -87,7 +78,6 @@ public class Song {
     public int getId() {
         return id;
     }
-
 
     public String getTitle() {
         return title;

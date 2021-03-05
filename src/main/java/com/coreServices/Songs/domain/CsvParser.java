@@ -19,7 +19,12 @@ import java.util.List;
 @Component
 public class CsvParser {
 
-
+    /**
+     * read .csv file, parse to Song.class, check incorrect data in file.
+     * @param file - file with .csv extension
+     * @return - list of songs parsed from .csv file
+     * @throws IOException - incorrect loading
+     */
     public List<Song> csvRead(final String file) throws IOException {
         CsvToBean<Song> beans = new CsvToBeanBuilder<Song>(new FileReader(file))
                 .withType(Song.class)
@@ -29,10 +34,21 @@ public class CsvParser {
         List<Song> songs = beans.parse();
 
         beans.getCapturedExceptions()
-                .forEach(e -> System.out.println("The song in line " + e.getLineNumber() + " has incorrect data"));
+                .forEach(e ->
+                        System.out.println("The song in line "
+                                + e.getLineNumber()
+                                + " has incorrect data"));
         return songs;
     }
 
+    /**
+     * write to .csv file from list of Song.class objects.
+     * @param songs - song list sent for writing
+     * @param path - user-specified write location
+     * @throws IOException - file was not written correctly
+     * @throws CsvDataTypeMismatchException - incorrect data in .csv file
+     * @throws CsvRequiredFieldEmptyException - no data to write to the specified field
+     */
     public void csvWrite(final List<Song> songs, final String path) throws IOException,
             CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
 
