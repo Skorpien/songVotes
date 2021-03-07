@@ -54,11 +54,11 @@ public class JavaFxController {
     public TableColumn<Song, Category> genre;
     @FXML
     public TableColumn<Song, Long> votes;
+    @FXML
+    public TextArea error;
     public Stage stage;
     @Autowired
     public DbService service;
-    @FXML
-    public TextArea error;
 
     /**
      * initializing table and switch off buttons until the database is loaded.
@@ -152,12 +152,13 @@ public class JavaFxController {
                 table.refresh();
             }
         } catch (NullPointerException e) {
-            e.printStackTrace();
+            System.out.println("No songs in database");;
         }
     }
 
     /**
      * loads the file from the localization specified by the user
+     * display which file has incorrect data in TextArea
      * activates the buttons (only when file adds songs to database).
      */
     public void loadFile() {

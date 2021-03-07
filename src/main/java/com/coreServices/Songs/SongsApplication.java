@@ -16,7 +16,6 @@ public class SongsApplication extends Application {
 
 	public static void main(String[] args) {
 		launch(args);
-		//SpringApplication.run(SongsApplication.class, args);
 	}
 
 	@Override

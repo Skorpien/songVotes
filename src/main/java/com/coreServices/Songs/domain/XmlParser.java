@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class XmlParser {
-
     private String error = "";
 
     /**
@@ -80,7 +79,7 @@ public class XmlParser {
     public boolean checkParsedSongs(final Song song, final int i) {
         if (song.getTitle() == null || song.getAuthor() == null
                 || song.getAlbum() == null || song.getGenre() == null) {
-            error+="The song in position "
+            error += "The song in position "
                     + i
                     + " has incorrect data\n";
             System.out.println("The song in position "
@@ -91,6 +90,10 @@ public class XmlParser {
         return true;
     }
 
+    /**
+     * gets the generated errors after Xml parsing.
+     * @return - errors
+     */
     public String getError() {
         String errorToSend = error;
         error = "";

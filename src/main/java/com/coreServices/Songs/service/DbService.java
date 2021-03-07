@@ -41,8 +41,9 @@ public class DbService {
     }
 
     /**
-     * check that file is .csv or .xml and sends to the appropriate function.
+     * * check that file is .csv or .xml and sends to the appropriate function.
      * @param file - holds .csv or .xml
+     * @return - possible errors passed to textArea
      */
     public String parserChecker(final File file) {
         if (file != null) {
@@ -71,7 +72,7 @@ public class DbService {
      * sends the data retrieved from the file to the parser
      * and writes the returned values to the database.
      * @param file - holds .csv
-     * @throws Exception
+     * @throws Exception - exception
      */
     public void readCsvFile(final String file) throws Exception {
         List<Song> newSongs = csvParser.csvRead(file);
@@ -169,10 +170,18 @@ public class DbService {
         return byCategory;
     }
 
+    /**
+     * gets the generated errors after Xml parsing.
+     * @return - errors
+     */
     public String getXmlError() {
         return xmlParser.getError();
     }
 
+    /**
+     * gets the generated errors after Csv parsing.
+     * @return - errors
+     */
     public String getCsvError() {
         return csvParser.getError();
     }

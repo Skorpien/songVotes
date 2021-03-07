@@ -51,6 +51,10 @@ public class SongsDb {
         return songList.contains(song);
     }
 
+    /**
+     * retrieves a copy of the list of songs stored in the database.
+     * @return - copy of songs stored in the database
+     */
     public List<Song> getSongList() {
         return new ArrayList<>(songList);
     }

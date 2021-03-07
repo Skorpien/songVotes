@@ -2,9 +2,6 @@ package com.coreServices.Songs.domain;
 
 import javax.xml.bind.annotation.XmlEnum;
 
-/**
- * enums with values of Category field.
- */
 @XmlEnum
 public enum Category {
     ROCK("Rock"),
@@ -21,6 +18,10 @@ public enum Category {
 
     private final String label;
 
+    /**
+     * enums with values of Category field.
+     * @param label - label to compare
+     */
     Category(final String label) {
         this.label = label;
     }
@@ -39,6 +40,10 @@ public enum Category {
         return Category.OTHER;
     }
 
+    /**
+     * gets label field
+     * @return - label field
+     */
     public String getLabel() {
         return label;
     }

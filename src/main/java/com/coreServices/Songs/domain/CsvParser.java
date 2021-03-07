@@ -1,6 +1,5 @@
 package com.coreServices.Songs.domain;
 
-import com.fasterxml.jackson.core.exc.InputCoercionException;
 import com.opencsv.CSVWriter;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
@@ -37,7 +36,7 @@ public class CsvParser {
         List<Song> songs = beans.parse();
 
         beans.getCapturedExceptions()
-                .forEach(e -> error+= "The song in line "
+                .forEach(e -> error += "The song in line "
                         + e.getLineNumber()
                         + " has incorrect data\n");
 
@@ -71,6 +70,10 @@ public class CsvParser {
 
     }
 
+    /**
+     * gets saved errors sends from csvReader().
+     * @return - incorrect data errors
+     */
     public String getError() {
         String errorToSend = error;
         error = "";
