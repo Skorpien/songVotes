@@ -57,6 +57,8 @@ public class JavaFxController {
     public Stage stage;
     @Autowired
     public DbService service;
+    @FXML
+    public TextArea error;
 
     /**
      * initializing table and switch off buttons until the database is loaded.
@@ -136,7 +138,7 @@ public class JavaFxController {
             table.getSelectionModel().getSelectedItem().clearVotes();
             table.refresh();
         } catch (NullPointerException e) {
-            e.printStackTrace();
+            System.out.println("no song checked");;
         }
     }
 
@@ -166,7 +168,7 @@ public class JavaFxController {
         );
         File file = fileChooser.showOpenDialog(stage);
 
-        service.parserChecker(file);
+            error.setText(service.parserChecker(file));
 
         if (!service.getAllSongs().isEmpty()) {
             top3.setDisable(false);

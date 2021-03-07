@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class XmlParser {
 
+    private String error = "";
+
     /**
      * read .xml file, parse to Song.class.
      * @param file - file with .xml extension
@@ -78,11 +80,20 @@ public class XmlParser {
     public boolean checkParsedSongs(final Song song, final int i) {
         if (song.getTitle() == null || song.getAuthor() == null
                 || song.getAlbum() == null || song.getGenre() == null) {
+            error+="The song in position "
+                    + i
+                    + " has incorrect data\n";
             System.out.println("The song in position "
                     + i
                     + " has incorrect data");
             return false;
         }
         return true;
+    }
+
+    public String getError() {
+        String errorToSend = error;
+        error = "";
+        return errorToSend;
     }
 }

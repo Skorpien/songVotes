@@ -44,17 +44,19 @@ public class DbService {
      * check that file is .csv or .xml and sends to the appropriate function.
      * @param file - holds .csv or .xml
      */
-    public void parserChecker(final File file) {
+    public String parserChecker(final File file) {
         if (file != null) {
             if (file.getAbsolutePath().endsWith(".csv")) {
                 try {
                     readCsvFile(file.toString());
+                    return getCsvError();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             } else if (file.getAbsolutePath().endsWith(".xml")) {
                 try {
                     readXmlFile(file);
+                    return getXmlError();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -62,6 +64,7 @@ public class DbService {
                 System.out.println("something wrong");
             }
         }
+        return "";
     }
 
     /**
@@ -166,4 +169,11 @@ public class DbService {
         return byCategory;
     }
 
+    public String getXmlError() {
+        return xmlParser.getError();
+    }
+
+    public String getCsvError() {
+        return csvParser.getError();
+    }
 }
